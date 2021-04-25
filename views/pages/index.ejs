@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- include the head code -->
     <%- include('../partials/head'); %>
 
 </head>
 <body class="container">
 
     <header>
+        <!-- include header code -->
         <%- include('../partials/header'); %>
     </header>
 
     <main>
         <br>
+        <!-- check for any errors -->
         <% if (data) { %>
             <div class="alert alert-danger" role="alert" style="max-width: 300px; padding: 5px; padding-left: 3em;">
                 <%= data %> 
             </div>
         <% } %>
+
+        <!-- form in which a specific programming language is picked -->
         <form class="mb-4" method="post" action="/process_form">
             <div class="row">
                 <div class="col-md-auto">                    
@@ -37,6 +42,7 @@
             
     </main>
 
+    <!-- include footer code -->
     <footer>
         <%- include('../partials/footer'); %>
     </footer>

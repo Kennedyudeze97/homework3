@@ -28,6 +28,7 @@ app.post('/process_form', function(req, res){
         axios.get('https://cwrvx8v6xj.execute-api.us-east-2.amazonaws.com/default/apitest')
         .then((response)=>{
             response.data.forEach(function (element) {
+                // search for the language of selected id
                 if (element['id'] == selection) {
                     data = element;
                 }
@@ -44,6 +45,7 @@ app.post('/process_form', function(req, res){
     }    
 })
 
+// run the server from a specific port. 3000 in this case
 const port = 3000
 app.listen(port, () => {
     console.log(`Front-end app listening at http://localhost:${port}`)
