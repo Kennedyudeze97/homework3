@@ -7,13 +7,7 @@ app.use(bodyParser.urlencoded());
 
 // required module to make calls to a REST API
 const axios = require('axios');
-
-// test data
-var data = [{"id": 0, "name": "Python", "createdAt": "1991-02-20", "createdBy": "Guido van Rossum", "marketSharePercent": 16.6, "typingDisciplines": ["duck", "dynamic", "strong"]}, 
-{"id": 1, "name": "C", "createdAt": "1972-01-01", "createdBy": "Dennis Ritchie", "marketSharePercent": 3.2, "typingDisciplines": ["static", "weak", "manifest", "nominal"]}, 
-{"id": 2, "name": "Java", "createdAt": "1995-05-23", "createdBy": "James Gosling", "marketSharePercent": 11.6, "typingDisciplines": ["static", "strong", "manifest", "safe", "nominative"]}, 
-{"id": 3, "name": "C#", "createdAt": "2000-01-01", "createdBy": "Microsoft", "marketSharePercent": 3.6, "typingDisciplines": ["static", "dynamic", "strong", "safe", "nominative"]}, 
-{"id": 4, "name": "JavaScript", "createdAt": "1995-12-04", "createdBy": "Brendan Eich", "marketSharePercent": 18.7, "typingDisciplines": ["duck", "dynamic"]}]
+const { response } = require('express');
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -28,19 +22,26 @@ app.get('/', function(req, res) {
 // form processing
 app.post('/process_form', function(req, res){ 
     var selection = parseInt(req.body.selection);
-    if (selection) {
-        res.render('pages/results', {
-            data: data[selection]
-        });
-    }
-    
+    if ( selection || selection == 0) {        
+        // create a GET request to retrieve one pogramming language's details from API
+        data = {}
+        axios.get('https://cwrvx8v6xj.execute-api.us-east-2.amazonaws.com/default/apitest')
+        .then((response)=>{
+            response.data.forEach(function (element) {
+                if (element['id'] == selection) {
+                    data = element;
+                }
+            });
+            res.render('pages/results', {
+                data: data
+            });
+        });        
+    }    
     else{
         res.render('pages/index', {
             data: "Make selection first"
         });
-    }
-    console.log(selection)
-    
+    }    
 })
 
 const port = 3000
